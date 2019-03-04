@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,11 +28,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/hello").access("hasRole('ROLE_ADMIN')").anyRequest().permitAll().and()
-                .formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").and()
-                .logout().logoutSuccessUrl("/login?logout").and().exceptionHandling().accessDeniedPage("/403")
-                .and()
-                .csrf();
+        http.authorizeRequests()
+                // for now removing security on h2-console
+                .antMatchers("/h2-console/**").hasAuthority("ADMIN")
+                // removing login URL from authenticated
+                .antMatchers("/login").permitAll()
+                // securing all other requests
+                .anyRequest().authenticated()
+                // defining login page user name/password variables
+                .and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
+                // defining logout URL and redirect URL 
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).logoutSuccessUrl("/login?logout")
+                .and().exceptionHandling().accessDeniedPage("/403")
+                .and().csrf();
     }
 
 }
