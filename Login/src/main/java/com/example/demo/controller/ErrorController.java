@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ErrorController {
 
     @GetMapping("/error/403")
+    
     public String getUnauth() {
         return "/error/403";
     }
