@@ -10,6 +10,9 @@
 	</parent>
 	<groupId>com.sam</groupId>
 	<artifactId>kafka-consumer</artifactId>
+
+<!-- sothing -->
+
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kafka-consumer</name>
 	<description>Demo project for Spring Boot</description>
