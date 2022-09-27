@@ -12,6 +12,7 @@
 	<artifactId>Spring-Boot-Login</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Spring-Boot-Login</name>
+	
 	<description>Login Demo project for Spring Boot</description>
 
 	<properties>
